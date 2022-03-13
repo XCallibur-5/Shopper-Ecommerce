@@ -1,0 +1,217 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+body{
+  height: 100%;
+}
+
+
+.App-header {
+  background-color: #F5F5F5;
+  min-height: 100vh;
+
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(2, 2, 2);
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+
+.TopButton{
+  border-style: none;
+}
+
+.SearchingBar{
+  width: 45%;
+}
+
+.SearchDropdown{
+  display: none;
+}
+
+@media screen and (max-width: 700px) {
+  .SearchingBar{
+    width: 40%;
+  }
+}
+@media screen and (max-width: 640px) {
+  .SearchingBar{
+    width: 40%; 
+    position: relative;
+    right: 30%;
+    display: none;
+
+  }
+  .SearchDropdown{
+    display: inline;
+    border: 0;
+
+  }
+  .SearchDropdownMenu{
+    display: inline;
+    width: 20rem;
+  }
+}
+  
+
+
+
+/* ------------------------------Mid Part------------------------------------ */
+.Home{
+  text-align: center;
+}
+.MyCarousel {
+  height: 50%;
+  width: 100%;
+  opacity: 0.9;
+
+}
+
+.CardGroups{
+  margin-bottom: 3%;
+  width: 80%;
+  position: relative;
+  left: 10%;
+  background-color: #F5F5F5;
+  text-align: center;
+}
+.CardLink{
+  color: #121212;
+  text-decoration: none;
+}
+.ProductCard{
+  display: inline-block;
+  margin: 1%;
+  width: 16rem;
+  background-color:aliceblue;
+  text-align: center;
+  height: 20rem;
+  transition: width 1s, height 1s;
+}
+
+.ProductCardImg{
+  max-height:16rem;
+  max-width: 16rem;
+}
+.ProductCard:hover{
+  width: 18rem;
+}
+
+.ProductCards{
+
+  margin-left: 12%;
+  margin-right: 6%;
+  text-align: center;
+}
+
+.CartImg, .CartDescription,.CartInput, .CartPrice{
+  display: inline-block;
+  padding: 2% 5%;
+}
+.CartImg{
+  max-height: 16rem;
+}
+.CartCard{
+  padding-left: 5%;
+}
+
+.ProductList{
+  margin-top: 10%;
+  text-align: center;
+}
+
+.Selector{
+  width: 6rem;
+}
+
+.LoginForm{
+  width: 40%;
+  position: relative;
+  left: 30%;
+  margin-top: 7%;
+  margin-bottom: 7%;
+}
+
+.ItemCard{
+  margin-top: 12%;
+  display: inline-block;
+}
+.row1{
+  align-content: center;
+}
+.col1{
+  display: inline-block;
+  position: relative;
+  left: 10%;
+}
+.col2{
+  display: inline-block;
+  padding-left: 70%;
+}
+.row2{
+  align-content: center;
+}
+.col3{
+  display: inline-flex;
+}
+.col4{
+  display: inline-flex;
+}
+
+.ProductImage{
+  display: inline;
+  position: sticky;
+  bottom: 50%;
+}
+
+.ItemImg{
+  max-width:40%;
+  max-height: 50%;
+}
+.ProductDetail{
+  display: inline-block;
+  max-width: 40%;
+}
+
+.ToCart{
+  margin-top: 5%;
+
+}
+.CartDetail{
+  text-align: center;
+  margin-top: 7%;
+}
+.CartItems{
+  display: inline-block;
+  width: 70%;
+}
+.OrderSummary{
+  width: 20%;
+  display: inline-block;
+  position:fixed;
+  text-align: center;
+}
+/* //------------------bottom------------------- */
+.bottom {
+  text-align: center;
+  background-color: #121212;
+  margin-top: 2%;
+}
+.bottom a,.bottom p{
+  color: #F5F5F5;
+  text-decoration: none;
+  margin-bottom: 0;
+}
+.bottom .row{
+  padding-bottom: 1%;
+}
