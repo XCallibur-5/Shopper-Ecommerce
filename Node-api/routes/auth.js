@@ -14,7 +14,7 @@ router.post('/registration', async (req,res)=>{
         password: CryptoJS.AES.encrypt(req.body.password, process.env.PASS_SEC).toString()
     })
     const uno=await NewUser.save();
-     res.send(uno);
+     res.send("User created Successfully.");
 })
 
 //---------------------------------   -LOGIN-      --------------------------
