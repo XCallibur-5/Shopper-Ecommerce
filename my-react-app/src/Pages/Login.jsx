@@ -14,8 +14,8 @@ const Login=()=>{
     const { isFetching, error}= useSelector((state)=> state.user);
 
     const handleClick=(e)=>{
-        e.preventDefault();
-    //      console.log(username);
+        //e.preventDefault();
+    // console.log(username);
     // console.log(password);
 
         login(dispatch, { email, password });

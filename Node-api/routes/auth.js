@@ -4,6 +4,7 @@ const router = express.Router();
 const User = require ('../models/User');
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
+const {verifyToken, verifyTokenAndAuthorization, verifyAdmin} = require("./verifyToken")
 
 //---------------------------------------REGISTERING NEW USER-----------------------------
 
@@ -46,5 +47,14 @@ router.post("/login", (req,res)=>{
             return res.json('Cannot Login Check email/password')
         }
     })
+})
+
+router.post("/logout",verifyTokenAndAuthorization, (req,res)=>{
+    res.send("hi you are logged out")
+
+    //console.log(accessToken);
+   // console.log(req);
+    //console.log("hi hi logout");
+    
 })
 module.exports=router;

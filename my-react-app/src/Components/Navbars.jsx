@@ -12,7 +12,14 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import {useSelector} from 'react-redux';
 import {Link} from "react-router-dom";
 
+import { userRequest } from "../requestMethods";
+
+
 function Navbars (){
+    const Lout=async ()=>{
+       const x =await userRequest.post("/auth/logout");
+       console.log(x);
+    }
     const quantity = useSelector((state)=>state.cart.quantity);
     return (
         <div className='MyNavbar'>
@@ -51,6 +58,8 @@ function Navbars (){
             </div>
             
             <div>
+                
+                    <Button variant="outline-danger" className='TopButton' onClick={Lout}>Logout</Button>
                 <Link to='/login'>
                     <Button variant="outline-success" className='TopButton'>🎎Login</Button>
                 </Link> 

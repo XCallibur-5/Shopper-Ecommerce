@@ -42,7 +42,7 @@ function Product(){
                 </div>
                 <div className="ProductDetail">
                     <h2>{product.title}</h2>
-                    <h3 className='ItemStars'>⭐⭐⭐⭐</h3>
+                    <h3 className='ItemStars'>⭐⭐⭐</h3>
                     
                     <p className='ItemDescription'>{product.desc}</p>
                     <h3 className='ItemPrice'> ₹ {product.price}</h3>
