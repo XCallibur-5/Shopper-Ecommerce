@@ -13,20 +13,20 @@ import {useSelector,useDispatch} from 'react-redux';
 import {Link} from "react-router-dom";
 import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
-import { login } from "../redux/apiCalls";
+import { logout } from "../redux/apiCalls";
 
 function Navbars (){
-    // const [email,setEmail] = useState(null);
-    // const [password,setPassword] = useState(null);
-    // const dispatch = useDispatch();
+    const [email,setEmail] = useState(null);
+    const [password,setPassword] = useState(null);
+     const dispatch = useDispatch();
     // const { isFetching, error}= useSelector((state)=> state.user);
     
 
     const quantity = useSelector((state)=>state.cart.quantity);
     const user = useSelector((state)=>state.user.currentUser);
     const Lout=async ()=>{
-        //login(dispatch, { email, password });
-        const x =await userRequest.post("/auth/logout");
+        //logout(dispatch, { email, password });
+        const x =await logout(dispatch, { email,password });
         console.log(x);
      }
     function TopButtons (){
