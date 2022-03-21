@@ -7,18 +7,19 @@ import '../App.css';
 
 import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import StripeCheckout from "react-stripe-checkout";
 
 
-const KEY = 'pk_test_51KfEtLSJFjixEHzm2Txr1JedqvdtlyfurVhLcwbaCUxlQwMXGg30Gu2JGjmTkDbT56NbDrpBqtRfYtlQxTcklUOB00rG9ZjieA';
+const KEY = 'pk_test_51KfEtLSJFjixEHzm2Txr1JedqvdtlyfurVhLcwbaCUxlQwMXGg30Gu2JGjmTkDbT56NbDrpBqtRfYtlQxTcklUOB00rG9ZjieA'
 //console.log(KEY);
 
-function Cart(){
-    const cart= useSelector(state=>state.cart);
+const Cart=()=>{
+    const cart= useSelector((state)=>state.cart);
     const [stripeToken, setStripeToken] = useState(null);
     //console.log(cart);
     const navigate = useNavigate();
+
     const onToken = (token) => {
         setStripeToken(token);
       };
@@ -28,15 +29,16 @@ function Cart(){
           try {
             const res = await userRequest.post("/checkout/payment", {
               tokenId: stripeToken.id,
-              amount: cart.total,
+              amount:cart.total,
             });
-            navigate.push("/success", {
+            console.log(res);
+            navigate("/success", {
               stripeData: res.data,
               products: cart, });
           } catch {}
         };
         stripeToken && makeRequest();
-      }, [stripeToken, cart,navigate]);
+      }, [stripeToken, cart ,navigate]);
 
 
     
@@ -49,21 +51,7 @@ function Cart(){
                     Continue Shopping
                 </Button>
 
-                <StripeCheckout
-              name="Shopper"
-              image="Shopper"
-              currency="INR"
-              billingAddress
-              shippingAddress
-              description={`Your total is ₹${cart.total}`}
-              amount={cart.total * 100}
-              token={onToken}
-              stripeKey={KEY}
-            >
-              <Button variant="outline-success">
-                    Proceed to Checkout
-                </Button>
-            </StripeCheckout>
+                
 
                 
             </div>
@@ -98,6 +86,21 @@ function Cart(){
                 <p>Toatl Price :- ₹{cart.total}</p>
                 <p>Discount    :- 0</p>
                 <p>Net Payable :- ₹{cart.total}</p>
+                <StripeCheckout
+              name="Shopper"
+              // image="Shopper"
+              currency="INR"
+              billingAddress
+              shippingAddress
+              description={`Your total is ₹${cart.total}`}
+              amount={cart.total * 100}
+              token={onToken}
+              stripeKey={KEY}
+            >
+              <Button variant="outline-success">
+                    Proceed to Checkout
+                </Button>
+            </StripeCheckout>
             </div>
             <Footer />
         </div>

@@ -1,7 +1,7 @@
-
 const express = require('express');
 const router = express.Router();
 const User = require ('../models/User');
+const Blacklist = require ('../models/Blacklist');
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
 const {verifyToken, verifyTokenAndAuthorization, verifyAdmin} = require("./verifyToken")
@@ -19,7 +19,6 @@ router.post('/registration', async (req,res)=>{
 })
 
 //---------------------------------   -LOGIN-      --------------------------
-
 router.post("/login", (req,res)=>{
     User.findOne({email:req.body.email}, (err,result)=>{
         const passcheck=req.body.password;
@@ -40,21 +39,22 @@ router.post("/login", (req,res)=>{
                 // console.log(decoded);
                 //console.log(accessToken);
             }
-            
             const {password,...others}=result._doc;
             res.json({...others, accessToken});
+
         }else{
             return res.json('Cannot Login Check email/password')
         }
     })
 })
 
-router.post("/logout",verifyTokenAndAuthorization, (req,res)=>{
+router.post("/logout",verifyTokenAndAuthorization, async (req,res)=>{
+    const NewBlack= new Blacklist({
+        token: req.headers.token,
+    })
+    const list=await NewBlack.save();
+    //console.log(req.headers.token);
     res.send("hi you are logged out")
-
-    //console.log(accessToken);
-   // console.log(req);
-    //console.log("hi hi logout");
     
 })
 module.exports=router;

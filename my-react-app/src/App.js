@@ -14,17 +14,14 @@ import { useDispatch, useSelector } from "react-redux";
 function App() {
   const user = useSelector((state)=>state.user.currentUser);
   console.log(user);
-  let x = <Route path="/login" element={<Login />} />
-  if (user!=null){
-    x=<Route path="/login" element={<Home />} />
-  }
+
   return (
     <div >
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/productlist/:category" element={<ProductList />} />
         <Route path="/cart" element={<Cart />} />
-        {x}
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/product/:id" element={<Product />} />
         <Route path="/admin" element={<AdminDashboard />} />

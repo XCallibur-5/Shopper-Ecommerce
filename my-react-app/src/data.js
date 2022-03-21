@@ -69,3 +69,6 @@ export const sliderItems = [
       price:"$ 12"
     },
   ]
+
+
+  

@@ -13,13 +13,13 @@ const Login=()=>{
     const dispatch = useDispatch();
     const { isFetching, error}= useSelector((state)=> state.user);
 
-    const handleClick=(e)=>{
-        //e.preventDefault();
+    const handleClick=async (e)=>{
+        e.preventDefault();
     // console.log(username);
     // console.log(password);
 
-        login(dispatch, { email, password });
-        
+        const x= await login(dispatch, { email, password });
+        window.location.href='/'
     };
    
     return(

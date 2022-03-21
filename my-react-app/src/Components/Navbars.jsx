@@ -9,18 +9,51 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Container from 'react-bootstrap/Container';
 import Dropdown from 'react-bootstrap/Dropdown';
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
 import {Link} from "react-router-dom";
-
+import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
-
+import { login } from "../redux/apiCalls";
 
 function Navbars (){
-    const Lout=async ()=>{
-       const x =await userRequest.post("/auth/logout");
-       console.log(x);
-    }
+    // const [email,setEmail] = useState(null);
+    // const [password,setPassword] = useState(null);
+    // const dispatch = useDispatch();
+    // const { isFetching, error}= useSelector((state)=> state.user);
+    
+
     const quantity = useSelector((state)=>state.cart.quantity);
+    const user = useSelector((state)=>state.user.currentUser);
+    const Lout=async ()=>{
+        //login(dispatch, { email, password });
+        const x =await userRequest.post("/auth/logout");
+        console.log(x);
+     }
+    function TopButtons (){
+        if (user!=null){
+            return(
+                <div>
+                    <Button variant="outline-danger" className='TopButton' onClick={Lout} >Logout</Button>
+                    <Button variant="outline-success" className='TopButton'>🎁Orders</Button>
+                    <Link to="/cart">
+                        <Button variant="outline-success" className='TopButton'>🛒Cart {quantity}</Button>
+                    </Link>
+                </div> 
+            )
+        }else{
+            return(<div>
+    
+                    <Link to='/login'>
+                        <Button variant="outline-success" className='TopButton' >🎎Login</Button>
+                    </Link> 
+                    <Button variant="outline-success" className='TopButton'>🎁Orders</Button>
+                    <Link to="/cart">
+                        <Button variant="outline-success" className='TopButton'>🛒Cart {quantity}</Button>
+                    </Link>
+                </div> )
+        }
+    }
+
     return (
         <div className='MyNavbar'>
             <Navbar bg="light" expand={false} fixed="top">
@@ -30,7 +63,7 @@ function Navbars (){
             <Form className="d-flex ">
                 <FormControl
                 type="search"
-                placeholder="Search"
+                placeholder="Feature under construction"
                 className="SearchArea"
                 aria-label="Search"
                 />
@@ -56,21 +89,10 @@ function Navbars (){
                 </Dropdown.Menu>
             </Dropdown>
             </div>
-            
-            <div>
-                
-                    <Button variant="outline-danger" className='TopButton' onClick={Lout}>Logout</Button>
-                <Link to='/login'>
-                    <Button variant="outline-success" className='TopButton'>🎎Login</Button>
-                </Link> 
-                <Button variant="outline-success" className='TopButton'>🎁Orders</Button>
-                <Link to="/cart">
-                    <Button variant="outline-success" className='TopButton'>🛒Cart {quantity}</Button>
-                </Link>
-            </div> 
+
+            < TopButtons />  
         </Container>
         </Navbar>
-        
         </div>
     )
 }
