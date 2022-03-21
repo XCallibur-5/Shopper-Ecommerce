@@ -34,7 +34,7 @@ const userSlice = createSlice({
         },
     },
 );
-//console.log("kk ",userSlice);
+
 
 export const {loginStart,loginSuccess,loginFailure,logoutStart,logoutSuccess} = userSlice.actions;
 export default userSlice.reducer;

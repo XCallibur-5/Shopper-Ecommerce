@@ -14,11 +14,14 @@ import {Link} from "react-router-dom";
 import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
 import { logout } from "../redux/apiCalls";
+import { addProduct,resetProduct } from "../redux/cartRedux";
 
 function Navbars (){
     const [email,setEmail] = useState(null);
     const [password,setPassword] = useState(null);
-     const dispatch = useDispatch();
+    const [product, setProduct]= useState({});
+    const[size, setSize]=useState("");
+    const dispatch = useDispatch();
     // const { isFetching, error}= useSelector((state)=> state.user);
     
 
@@ -27,6 +30,9 @@ function Navbars (){
     const Lout=async ()=>{
         //logout(dispatch, { email, password });
         const x =await logout(dispatch, { email,password });
+        dispatch(
+            resetProduct({...product, quantity, size})
+        );
         console.log(x);
      }
     function TopButtons (){
@@ -46,7 +52,9 @@ function Navbars (){
                     <Link to='/login'>
                         <Button variant="outline-success" className='TopButton' >🎎Login</Button>
                     </Link> 
-                    <Button variant="outline-success" className='TopButton'>🎁Orders</Button>
+                    <Link to='/order'>
+                        <Button variant="outline-success" className='TopButton'>🎁Orders</Button>
+                    </Link>
                     <Link to="/cart">
                         <Button variant="outline-success" className='TopButton'>🛒Cart {quantity}</Button>
                     </Link>

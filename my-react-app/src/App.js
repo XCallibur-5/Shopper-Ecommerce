@@ -8,6 +8,7 @@ import Product from './Pages/Product';
 import ProductList from './Pages/ProductList';
 import Register from './Pages/Register';
 import AdminDashboard from './Pages/AdminDashboard';
+import OrderDashboard from './Pages/Order';
 import Success from "./Pages/Success";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/product/:id" element={<Product />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/success" element={<Success />} />
+        <Route path="/order" element={<OrderDashboard />} />
       </Routes>
     </div>
   );

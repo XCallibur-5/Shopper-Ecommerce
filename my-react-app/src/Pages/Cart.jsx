@@ -50,10 +50,6 @@ const Cart=()=>{
                 <Button variant="outline-success" type="submit">
                     Continue Shopping
                 </Button>
-
-                
-
-                
             </div>
 
             <div className="CartItems">
