@@ -1,14 +1,17 @@
 import React from "react";
 import Navbars from '../Components/Navbars';
 import Footer from '../Components/Footer';
-import {useSelector} from 'react-redux';
-import Button from 'react-bootstrap/Button'
+import {useSelector,useDispatch} from 'react-redux';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import '../App.css';
 
 import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
 import { useNavigate } from "react-router";
 import StripeCheckout from "react-stripe-checkout";
+import { addProduct,resetProduct } from "../redux/cartRedux";
+
 
 
 const KEY = 'pk_test_51KfEtLSJFjixEHzm2Txr1JedqvdtlyfurVhLcwbaCUxlQwMXGg30Gu2JGjmTkDbT56NbDrpBqtRfYtlQxTcklUOB00rG9ZjieA'
@@ -16,6 +19,7 @@ const KEY = 'pk_test_51KfEtLSJFjixEHzm2Txr1JedqvdtlyfurVhLcwbaCUxlQwMXGg30Gu2JGj
 
 const Cart=()=>{
     const cart= useSelector((state)=>state.cart);
+    const dispatch = useDispatch();
     const [stripeToken, setStripeToken] = useState(null);
     //console.log(cart);
     const navigate = useNavigate();
@@ -40,6 +44,33 @@ const Cart=()=>{
         stripeToken && makeRequest();
       }, [stripeToken, cart ,navigate]);
 
+    const [address,setAddress] = useState("");
+    const [email,setEmail] = useState("");
+    const [product, setProduct]= useState({});
+    const[size, setSize]=useState("");
+    const currentUser = useSelector((state) => state.user.currentUser);
+    const quantity = useSelector((state)=>state.cart.quantity);
+
+
+      const Orderer=async()=>{
+        try {
+          const res = await userRequest.post("/orders", {
+            userId: currentUser._id,
+            products: cart.products.map((item) => ({
+              productId: item._id,
+              quantity: item._quantity,
+            })),
+            amount: cart.total,
+            address: address,
+          });
+        } catch {}
+        dispatch(
+          resetProduct({...product, quantity, size})
+      );
+        window.location.href='/';
+      }
+
+
 
     
     return(
@@ -51,9 +82,24 @@ const Cart=()=>{
                     Continue Shopping
                 </Button>
             </div>
+            
 
             <div className="CartItems">
-            
+            <div className="LoginForm">
+            <Form>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="email" placeholder="Enter email"  onChange={(e)=>setEmail(e.target.value)}/>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Address</Form.Label>
+                    <Form.Control type="test" placeholder="Address"  onChange={(e)=>setAddress(e.target.value)}/>
+                </Form.Group>
+                <Button variant="outline-success" type="submit" onClick={Orderer}>
+                Pay On Delvery ₹{cart.total}    
+                </Button>
+            </Form>
+            </div>
                     
                     
                     
@@ -76,13 +122,15 @@ const Cart=()=>{
             ))}
             </div>
             
+            
             <div className="OrderSummary">
                 <h3>Order Summary</h3>
                 <p>Total Order :- {cart.products.length}</p>
                 <p>Toatl Price :- ₹{cart.total}</p>
                 <p>Discount    :- 0</p>
                 <p>Net Payable :- ₹{cart.total}</p>
-                <StripeCheckout
+                
+                {/* <StripeCheckout
               name="Shopper"
               // image="Shopper"
               currency="INR"
@@ -96,7 +144,8 @@ const Cart=()=>{
               <Button variant="outline-success">
                     Proceed to Checkout
                 </Button>
-            </StripeCheckout>
+            </StripeCheckout> */}
+            
             </div>
             <Footer />
         </div>

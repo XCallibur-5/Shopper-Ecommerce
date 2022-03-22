@@ -2,19 +2,16 @@
 import '../App.css';
 import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
-// import Offcanvas from 'react-bootstrap/Offcanvas';
-// import Nav from 'react-bootstrap/Nav';
-// import NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Container from 'react-bootstrap/Container';
 import Dropdown from 'react-bootstrap/Dropdown';
 import {useSelector,useDispatch} from 'react-redux';
 import {Link} from "react-router-dom";
-import { useEffect, useState } from "react";
-import { userRequest } from "../requestMethods";
+import { useState } from "react";
+
 import { logout } from "../redux/apiCalls";
-import { addProduct,resetProduct } from "../redux/cartRedux";
+import { resetProduct } from "../redux/cartRedux";
 
 function Navbars (){
     const [email,setEmail] = useState(null);
@@ -22,9 +19,6 @@ function Navbars (){
     const [product, setProduct]= useState({});
     const[size, setSize]=useState("");
     const dispatch = useDispatch();
-    // const { isFetching, error}= useSelector((state)=> state.user);
-    
-
     const quantity = useSelector((state)=>state.cart.quantity);
     const user = useSelector((state)=>state.user.currentUser);
     const Lout=async ()=>{
@@ -33,14 +27,17 @@ function Navbars (){
         dispatch(
             resetProduct({...product, quantity, size})
         );
-        console.log(x);
+        //console.log(x);
+        window.location.href='/';
      }
     function TopButtons (){
         if (user!=null){
             return(
                 <div>
                     <Button variant="outline-danger" className='TopButton' onClick={Lout} >Logout</Button>
-                    <Button variant="outline-success" className='TopButton'>🎁Orders</Button>
+                    <Link to='/order'>
+                        <Button variant="outline-success" className='TopButton'>🎁Orders</Button>
+                    </Link>
                     <Link to="/cart">
                         <Button variant="outline-success" className='TopButton'>🛒Cart {quantity}</Button>
                     </Link>
@@ -48,13 +45,13 @@ function Navbars (){
             )
         }else{
             return(<div>
-    
+
                     <Link to='/login'>
                         <Button variant="outline-success" className='TopButton' >🎎Login</Button>
                     </Link> 
-                    <Link to='/order'>
+                    {/* <Link to='/order'>
                         <Button variant="outline-success" className='TopButton'>🎁Orders</Button>
-                    </Link>
+                    </Link> */}
                     <Link to="/cart">
                         <Button variant="outline-success" className='TopButton'>🛒Cart {quantity}</Button>
                     </Link>
