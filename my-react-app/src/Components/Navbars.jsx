@@ -9,7 +9,6 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import {useSelector,useDispatch} from 'react-redux';
 import {Link} from "react-router-dom";
 import { useState } from "react";
-
 import { logout } from "../redux/apiCalls";
 import { resetProduct } from "../redux/cartRedux";
 
@@ -23,7 +22,7 @@ function Navbars (){
     const user = useSelector((state)=>state.user.currentUser);
     const Lout=async ()=>{
         //logout(dispatch, { email, password });
-        const x =await logout(dispatch, { email,password });
+        await logout(dispatch, { email,password });
         dispatch(
             resetProduct({...product, quantity, size})
         );
@@ -31,11 +30,11 @@ function Navbars (){
         window.location.href='/';
      }
     function TopButtons (){
-        if (user!=null){
+        if (user!=null && user.isAdmin===false){
             return(
                 <div>
                     <Button variant="outline-danger" className='TopButton' onClick={Lout} >Logout</Button>
-                    <Link to='/order'>
+                    <Link to={'/order/find/'+user._id}>
                         <Button variant="outline-success" className='TopButton'>🎁Orders</Button>
                     </Link>
                     <Link to="/cart">
@@ -43,7 +42,19 @@ function Navbars (){
                     </Link>
                 </div> 
             )
-        }else{
+        }
+        if(user!=null && user.isAdmin===true){
+            return(
+                <div className='MyAdminNavbar'>
+                <Button variant="outline-danger" className='TopButton' onClick={Lout} >Logout</Button>
+                    <Link to="/admin">
+                        <Button variant="outline-success" className='TopButton'>🤵Admin Dashboard</Button>
+                    </Link>
+                        <Button variant="outline-success" className='TopButton'>Add Item</Button>
+                </div>
+            )
+        }
+        else{
             return(<div>
 
                     <Link to='/login'>

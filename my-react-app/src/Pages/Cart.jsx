@@ -9,40 +9,16 @@ import '../App.css';
 import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
 import { useNavigate } from "react-router";
-import StripeCheckout from "react-stripe-checkout";
-import { addProduct,resetProduct } from "../redux/cartRedux";
+import { addProduct,resetProduct,removeProduct } from "../redux/cartRedux";
 
 
-
-const KEY = 'pk_test_51KfEtLSJFjixEHzm2Txr1JedqvdtlyfurVhLcwbaCUxlQwMXGg30Gu2JGjmTkDbT56NbDrpBqtRfYtlQxTcklUOB00rG9ZjieA'
 //console.log(KEY);
 
 const Cart=()=>{
     const cart= useSelector((state)=>state.cart);
     const dispatch = useDispatch();
-    const [stripeToken, setStripeToken] = useState(null);
-    //console.log(cart);
+
     const navigate = useNavigate();
-
-    const onToken = (token) => {
-        setStripeToken(token);
-      };
-
-      useEffect(() => {
-        const makeRequest = async () => {
-          try {
-            const res = await userRequest.post("/checkout/payment", {
-              tokenId: stripeToken.id,
-              amount:cart.total,
-            });
-            console.log(res);
-            navigate("/success", {
-              stripeData: res.data,
-              products: cart, });
-          } catch {}
-        };
-        stripeToken && makeRequest();
-      }, [stripeToken, cart ,navigate]);
 
     const [address,setAddress] = useState("");
     const [email,setEmail] = useState("");
@@ -53,25 +29,29 @@ const Cart=()=>{
 
 
       const Orderer=async()=>{
-        try {
-          const res = await userRequest.post("/orders", {
-            userId: currentUser._id,
-            products: cart.products.map((item) => ({
-              productId: item._id,
-              quantity: item._quantity,
-            })),
-            amount: cart.total,
-            address: address,
-          });
-        } catch {}
-        dispatch(
-          resetProduct({...product, quantity, size})
-      );
-        window.location.href='/';
+        if(address!='' && email!=''){
+          try {
+            const res = await userRequest.post("/orders", {
+              userId: currentUser._id,
+              products: cart.products.map((item) => ({
+                productId: item._id,
+                quantity: item._quantity,
+              })),
+              amount: cart.total,
+              address: address,
+            });
+          } catch {}
+          dispatch(
+            resetProduct({...product, quantity, size})
+        );
+          window.location.href='/';
+        }
       }
-
-
-
+      const handleClick=()=>{
+        dispatch(
+            removeProduct({...product, quantity, size})
+        );
+    }
     
     return(
         <div>
@@ -93,15 +73,13 @@ const Cart=()=>{
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Address</Form.Label>
-                    <Form.Control type="test" placeholder="Address"  onChange={(e)=>setAddress(e.target.value)}/>
+                    <Form.Control type="test" placeholder="Address" onChange={(e)=>setAddress(e.target.value)} />
                 </Form.Group>
                 <Button variant="outline-success" type="submit" onClick={Orderer}>
                 Pay On Delvery ₹{cart.total}    
                 </Button>
             </Form>
-            </div>
-                    
-                    
+            </div> 
                     
             {cart.products.map((product)=>(
                 <div className='CartCard'>
@@ -115,10 +93,12 @@ const Cart=()=>{
                         <div className='CartInput'>
                             <p> </p>
                             <p>₹ {product.price*product.quantity}</p>
-                            <a href='.'>Remove</a>
+                            <Button variant="outline-danger" type="button" onClick={handleClick}>
+                              Remove
+                            </Button>
                         </div>
                     <hr /> 
-                    </div>         
+                  </div>         
             ))}
             </div>
             
@@ -129,23 +109,6 @@ const Cart=()=>{
                 <p>Toatl Price :- ₹{cart.total}</p>
                 <p>Discount    :- 0</p>
                 <p>Net Payable :- ₹{cart.total}</p>
-                
-                {/* <StripeCheckout
-              name="Shopper"
-              // image="Shopper"
-              currency="INR"
-              billingAddress
-              shippingAddress
-              description={`Your total is ₹${cart.total}`}
-              amount={cart.total * 100}
-              token={onToken}
-              stripeKey={KEY}
-            >
-              <Button variant="outline-success">
-                    Proceed to Checkout
-                </Button>
-            </StripeCheckout> */}
-            
             </div>
             <Footer />
         </div>

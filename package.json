@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "stripe": "^8.210.0"
+    "timeago.js": "^4.0.2"
   }
 }

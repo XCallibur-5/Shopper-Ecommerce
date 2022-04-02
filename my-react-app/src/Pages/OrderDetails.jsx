@@ -2,6 +2,7 @@ import '../App.css';
 import React, { useState,useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 import Navbars from '../Components/Navbars';
+
 import { userRequest } from "../requestMethods";
 import {useSelector,useDispatch} from 'react-redux';
 import { format } from 'timeago.js';
@@ -16,11 +17,12 @@ function OrderDashboard(){
             setOrders(res.data);
         };makeRequest();
     },[currentUser]);
+
+
     console.log(orders[0].products);
     return(
         <div>
         < Navbars />
-
         <br/><br/><br/><br/><br/><br/>
         {orders.map((item)=>(
                 <div className='CartCard'>
@@ -39,7 +41,8 @@ function OrderDashboard(){
                 </div>         
             ))}
     </div> 
-    )  
+    )
+     
 }
 
 export default OrderDashboard;

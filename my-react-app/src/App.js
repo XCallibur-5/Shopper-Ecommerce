@@ -27,7 +27,7 @@ function App() {
         <Route path="/product/:id" element={<Product />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/success" element={<Success />} />
-        <Route path="/order" element={<OrderDashboard />} />
+        <Route path={user!=null?'/order/find/'+user._id:'/order/find/'} element={<OrderDashboard />} />
       </Routes>
     </div>
   );

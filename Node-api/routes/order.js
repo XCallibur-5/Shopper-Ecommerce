@@ -7,7 +7,7 @@ const {verifyToken, verifyTokenAndAuthorization, verifyAdmin} = require("./verif
 //----------CREATE------------
 
 router.post('/', verifyToken, async (req,res)=>{
-    console.log('hello');
+    //console.log('hello');
     const newOrder = new Order(req.body);
     try {
       const savedOrder = await newOrder.save();
@@ -29,6 +29,7 @@ router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
 
 router.get("/", verifyAdmin, async (req, res) => {
     const orders = await Order.find();
+    console.log(orders);
     res.json(orders);
 });
 

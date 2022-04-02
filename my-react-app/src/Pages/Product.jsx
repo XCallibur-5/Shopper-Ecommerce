@@ -1,9 +1,6 @@
 import React from "react";
 import Navbars from '../Components/Navbars';
-
-
 import Footer from '../Components/Footer';
-
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form';
 import '../App.css';
@@ -33,6 +30,7 @@ function Product(){
             addProduct({...product, quantity, size})
         );
     }
+    
     return(
         <div>
             <Navbars />
@@ -74,9 +72,7 @@ function Product(){
                 
             </div>
             <Footer />
-        </div>
-        
+        </div> 
     )
 }
-
 export default Product;
