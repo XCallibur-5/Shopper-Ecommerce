@@ -15,9 +15,6 @@ const Login=()=>{
 
     const handleClick=async (e)=>{
         e.preventDefault();
-    // console.log(username);
-    // console.log(password);
-
         const x= await login(dispatch, { email, password });
         window.location.href='/'
     };

@@ -1,13 +1,43 @@
 const Order = require("../models/Order");
+const User = require("../models/User");
 const express = require('express');
 const router = express.Router();
 const CryptoJS = require("crypto-js");
 const {verifyToken, verifyTokenAndAuthorization, verifyAdmin} = require("./verifyToken")
+// This is your test secret API key.
+require('dotenv').config();
+
+const stripe = require('stripe')(process.env.STRIPE_KEY);
+
+
+const YOUR_DOMAIN = 'http://localhost:3000/cart';
+
+router.post('/create-checkout-session', async (req, res) => {
+  const session = await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        price_data: {
+          currency: 'inr',
+          product_data: {
+            name: 'T-shirt',
+          },
+          unit_amount: 2000,
+        },
+        quantity: 1,
+      },
+    ],
+    mode: 'payment',
+    success_url: `${YOUR_DOMAIN}?success=true`,
+    cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+  });
+  //console.log(session)
+  res.redirect(303, session.url);
+});
+
 
 //----------CREATE------------
 
 router.post('/', verifyToken, async (req,res)=>{
-    //console.log('hello');
     const newOrder = new Order(req.body);
     try {
       const savedOrder = await newOrder.save();
@@ -17,6 +47,7 @@ router.post('/', verifyToken, async (req,res)=>{
     }
 })
 
+
 //---------READ-User Order------------
 
 router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
@@ -24,13 +55,25 @@ router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
       res.json(orders);
   });
 
+//-----------------------Find One Order----------
+router.get("/findOne/:orderId/:userId", verifyTokenAndAuthorization, async (req, res) => {
+  const orders = await Order.findById(req.params.orderId);
+  res.json(orders);
+});
+
 
   //----------------Find All---------------
 
 router.get("/", verifyAdmin, async (req, res) => {
     const orders = await Order.find();
-    console.log(orders);
     res.json(orders);
+});
+
+  //----------------Find All Users---------------
+
+router.get("/users", verifyAdmin, async (req, res) => {
+  const users = await User.find();
+  res.json(users);
 });
 
 //----------Update------------

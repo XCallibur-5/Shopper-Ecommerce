@@ -27,7 +27,7 @@ const verifyToken = (req, res, next) => {
 };
 
 const verifyTokenAndAuthorization = (req, res, next) => {
- // console.log(req.headers.token);
+  //console.log(req.params.userId);
   verifyToken(req, res, () => {
     // console.log(req.params.userId);
     // console.log(req.user.id);

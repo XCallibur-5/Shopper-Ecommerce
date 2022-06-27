@@ -50,7 +50,9 @@ function Navbars (){
                     <Link to="/admin">
                         <Button variant="outline-success" className='TopButton'>🤵Admin Dashboard</Button>
                     </Link>
+                    <Link to='/adminAddProduct'>
                         <Button variant="outline-success" className='TopButton'>Add Item</Button>
+                    </Link>
                 </div>
             )
         }

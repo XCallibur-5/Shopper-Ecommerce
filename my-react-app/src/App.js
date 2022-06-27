@@ -8,13 +8,15 @@ import Product from './Pages/Product';
 import ProductList from './Pages/ProductList';
 import Register from './Pages/Register';
 import AdminDashboard from './Pages/AdminDashboard';
+import AdminAddProduct from './Pages/AdminAddProduct';
 import OrderDashboard from './Pages/Order';
+import OrderIndividual from './Pages/OrderIndividual';
 import Success from "./Pages/Success";
 import { useDispatch, useSelector } from "react-redux";
 
 function App() {
   const user = useSelector((state)=>state.user.currentUser);
-  console.log(user);
+  //console.log(user);
 
   return (
     <div >
@@ -26,8 +28,10 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/product/:id" element={<Product />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/orders/:id" element={<OrderIndividual />} />
         <Route path="/success" element={<Success />} />
         <Route path={user!=null?'/order/find/'+user._id:'/order/find/'} element={<OrderDashboard />} />
+        <Route path="/adminAddProduct" element={<AdminAddProduct />} />
       </Routes>
     </div>
   );

@@ -201,6 +201,12 @@ body{
   position:fixed;
   text-align: center;
 }
+.addProduct{
+  width: 50%;
+  align-content: center;
+  position: relative;
+  left: 25%;
+}
 /* //------------------bottom------------------- */
 .bottom {
   text-align: center;

@@ -11,7 +11,7 @@ function Cards(item){
         <h5>{item.item.title}</h5>
       </div>
       <div className='ProductPrice'>
-        <p>{item.item.price} <span></span></p>
+        <p>₹ {item.item.price} <span></span></p>
       </div>
     </Link>
     

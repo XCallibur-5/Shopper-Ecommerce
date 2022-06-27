@@ -14,6 +14,38 @@ import { addProduct,resetProduct,removeProduct } from "../redux/cartRedux";
 
 //console.log(KEY);
 
+const ProductDisplay = (props) => (
+  <section>
+    <div className="product">
+      <img
+        src={props.img}
+        alt="The cover of Stubborn Attachments"
+      />
+      <div className="description">
+      <h3>Stubborn Attachments</h3>
+      <h5>$20.00</h5>
+      </div>
+    </div>
+    <form action="http://localhost:4000/api/orders/create-checkout-session" method="POST">
+    <Button variant="outline-success" type="submit">
+        Pay On Delvery   
+    </Button>
+      {/* <button type="submit">
+        Checkout
+      </button> */}
+    </form>
+  </section>
+);
+
+const Message = ({ message }) => (
+  <section>
+    <p>{message}</p>
+  </section>
+);
+
+
+  
+
 const Cart=()=>{
     const cart= useSelector((state)=>state.cart);
     const dispatch = useDispatch();
@@ -22,14 +54,41 @@ const Cart=()=>{
 
     const [address,setAddress] = useState("");
     const [email,setEmail] = useState("");
-    const [product, setProduct]= useState({});
     const[size, setSize]=useState("");
+    const[number, setNumber]=useState();
     const currentUser = useSelector((state) => state.user.currentUser);
     const quantity = useSelector((state)=>state.cart.quantity);
+    const [product, setProduct]= useState({});
+    //console.log(product);
 
+    // setProduct(cart.products[0]._id);
+    const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    // Check to see if this is a redirect back from Checkout
+    const query = new URLSearchParams(window.location.search);
+    console.log(number);
+    if (query.get("success")) {
+      setMessage("Order placed! You will receive an email confirmation.");
+    }
+
+    if (query.get("canceled")) {
+      setMessage(
+        "Order canceled -- continue to shop around and checkout when you're ready."
+      );
+    }
+  }, []); 
+  
+  useEffect(() => {
+    // Check to see if this is a redirect back from Checkout
+  //   dispatch(
+  //     removeProduct({number, quantity, size})
+  // );
+  }, [number]);
 
       const Orderer=async()=>{
-        if(address!='' && email!=''){
+        console.log('hi ordered')
+        if(address!=='' && email!==''){
           try {
             const res = await userRequest.post("/orders", {
               userId: currentUser._id,
@@ -47,12 +106,8 @@ const Cart=()=>{
           window.location.href='/';
         }
       }
-      const handleClick=()=>{
-        dispatch(
-            removeProduct({...product, quantity, size})
-        );
-    }
-    
+
+    let x=0;
     return(
         <div>
             <Navbars />
@@ -75,26 +130,32 @@ const Cart=()=>{
                     <Form.Label>Address</Form.Label>
                     <Form.Control type="test" placeholder="Address" onChange={(e)=>setAddress(e.target.value)} />
                 </Form.Group>
+                {(message) ? (
+    <Message message={message} />
+  ) : (
+    <ProductDisplay />
+  )}
                 <Button variant="outline-success" type="submit" onClick={Orderer}>
                 Pay On Delvery ₹{cart.total}    
                 </Button>
             </Form>
             </div> 
-                    
-            {cart.products.map((product)=>(
+                  
+            {
+              cart?.products?.map((prod, index)=>(
                 <div className='CartCard'>
-                        <img src={product.img} alt='ProductImage' className='CartImg'/>
+                        <img src={prod.img} alt='ProductImage' className='CartImg'/>
                         <div className='CartDescription'>
-                            <h4> {product.title} </h4>
-                            <p>Size:- {product.size} </p>
-                            <p>Quantity :- {product.quantity}</p>
+                            <h4> {prod.title} </h4>
+                            <p>Size:- {prod.size} </p>
+                            <p>Quantity :- {prod.quantity}</p>
                         </div>
 
                         <div className='CartInput'>
                             <p> </p>
-                            <p>₹ {product.price*product.quantity}</p>
-                            <Button variant="outline-danger" type="button" onClick={handleClick}>
-                              Remove
+                            <p>₹ {prod.price*prod.quantity}</p>
+                            <Button variant="outline-danger" type="button" value={index} onClick={(e)=>setNumber(index)}>
+                              Remove{index}
                             </Button>
                         </div>
                     <hr /> 
@@ -105,7 +166,7 @@ const Cart=()=>{
             
             <div className="OrderSummary">
                 <h3>Order Summary</h3>
-                <p>Total Order :- {cart.products.length}</p>
+                <p>Total Order :- {cart.products?.length}</p>
                 <p>Toatl Price :- ₹{cart.total}</p>
                 <p>Discount    :- 0</p>
                 <p>Net Payable :- ₹{cart.total}</p>

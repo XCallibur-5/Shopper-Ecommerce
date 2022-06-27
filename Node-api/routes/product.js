@@ -12,6 +12,23 @@ router.post('/createProduct', verifyAdmin, async (req,res)=>{
     res.json(savedProduct);
 })
 
+//--------------Rating```````
+router.post('/rate/:id', async (req,res)=>{
+  if(req.params.id){
+    const foundProduct = await Product.findById(req.params.id);
+    let k = await foundProduct.rating;
+    let l = await foundProduct.ratingNumber;
+    l=await l+1
+    let rat = await (Math.round((k+parseInt(req.body.rating))/l));
+    const doc = await Product.findByIdAndUpdate(foundProduct._id,
+      { rating: rat ,
+       ratingNumber: l },
+      { new: true }
+    )
+    res.json(foundProduct);
+  }
+})
+
 //---------READ-------------
 
 router.get('/:id', async (req,res)=>{

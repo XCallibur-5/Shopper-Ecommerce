@@ -1,21 +1,30 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import Navbars from '../Components/Navbars';
 import Footer from '../Components/Footer';
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form';
 import '../App.css';
+
+import Container from 'react-bootstrap/esm/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { userRequest } from "../requestMethods";
+import {useSelector,useDispatch} from 'react-redux';
+import { format } from 'timeago.js';
 import {useLocation} from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import { publicRequest } from '../requestMethods';
 import { addProduct } from "../redux/cartRedux";
-import { useDispatch } from 'react-redux';
+
+
 
 function Product(){
+    const user = useSelector((state)=>state.user.currentUser);
     const location = useLocation();
     const id=location.pathname.split("/")[2];
     const [product, setProduct]= useState({});
     const[quantity, setQuantity]=useState(1);
     const[size, setSize]=useState("");
+    const[rating, setRating]=useState("0");
     const dispatch = useDispatch();
     useEffect(()=>{
         const getProduct = async () => {
@@ -24,6 +33,16 @@ function Product(){
           };
         getProduct();
     },[id])
+
+    useEffect(()=>{
+        const setRat=async ()=>{
+            if(product && rating!=="0"){
+                const ratRes= await userRequest.post(`/products/rate/${id}`, {rating: rating});
+                console.log(ratRes);
+            }
+        };
+        setRat();
+    },[rating]);
 
     const handleClick=()=>{
         dispatch(
@@ -40,7 +59,8 @@ function Product(){
                 </div>
                 <div className="ProductDetail">
                     <h2>{product.title}</h2>
-                    <h3 className='ItemStars'>⭐⭐⭐</h3>
+                    <h3 className='ItemStars'>
+                    {"⭐".repeat(product.rating)}</h3>
                     
                     <p className='ItemDescription'>{product.desc}</p>
                     <h3 className='ItemPrice'> ₹ {product.price}</h3>
@@ -67,11 +87,31 @@ function Product(){
                         </div>
                         </div>
                     </div>
-                    <Button variant="success" className="ToCart" onClick={handleClick}>Add to Cart</Button>
+                    {(user)?<Button variant="success" className="ToCart" onClick={handleClick}>Add to Cart</Button>:<Button variant="danger" className="ToCart">Please Login</Button>}
                 </div>
-                
             </div>
+            {(user)?<Container>
+            <Row>
+                <Col>
+                <Form.Group className="mb-3">
+                    <Form.Label>Rate the Product</Form.Label>
+                        <Form.Select aria-label="Select" onChange={(e)=>setRating(e.target.value)}>
+                            <option value="0">Select rating</option>
+                            <option value="1">⭐</option>
+                            <option value="2">⭐⭐</option>
+                            <option value="3">⭐⭐⭐</option>
+                            <option value="4">⭐⭐⭐⭐</option>
+                            <option value="5">⭐⭐⭐⭐⭐</option>
+                        </Form.Select>
+                </Form.Group>
+                </Col>
+                <Col></Col><Col></Col><Col></Col><Col></Col><Col></Col>
+            </Row>
+        </Container>:<b>Login To Rate</b>}
+        
+
             <Footer />
+
         </div> 
     )
 }
