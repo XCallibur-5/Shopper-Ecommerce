@@ -24,15 +24,16 @@ function AdminOrders(){
     },[id]);
 
     useEffect(()=>{
-        const prod = async ()=>{
+        const pro = async ()=>{
             order?.products?.map(async (x)=>{
                 console.log(x.quantity)
                 let resTemp = await userRequest.get(`/products/${x.productId}`)
                 resTemp.qua= await x.quantity
+                console.log(resTemp)
                 await setProducts(oldArray => [...oldArray, resTemp])
                 console.log(products)
             })
-        }; prod()
+        }; pro()
     }, [order, id, currentUser])
 
     return(
@@ -55,7 +56,7 @@ function AdminOrders(){
                         <img src={prod.data.img} alt='ProductImage' className='CartImg'/>
                         <div className='CartDescription'>
                             <h4> {prod.data.title} </h4>
-                            <span>{prod.data.price}</span><span>x {prod?.qua}</span><span> = </span><span>{(prod.data.price)*(prod.qua)}</span>
+                            <span>{prod.data.price}</span><span>x {prod?.qua}</span><span> = </span><span>{(prod.data.price)*(prod?.qua)}</span>
                         </div>
 
                         <div className='CartInput'>

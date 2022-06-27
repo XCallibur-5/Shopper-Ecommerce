@@ -47,27 +47,27 @@ const Message = ({ message }) => (
   
 
 const Cart=()=>{
-    const cart= useSelector((state)=>state.cart);
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
-
+    const [mark, setMark] = useState(false);
     const [address,setAddress] = useState("");
     const [email,setEmail] = useState("");
     const[size, setSize]=useState("");
-    const[number, setNumber]=useState();
+    const[number, setNumber]=useState(0);
+    const[qua, setQua]=useState(0);
+    const[money, setMoney]=useState(0);
     const currentUser = useSelector((state) => state.user.currentUser);
     const quantity = useSelector((state)=>state.cart.quantity);
+
     const [product, setProduct]= useState({});
     //console.log(product);
-
-    // setProduct(cart.products[0]._id);
+    const cart= useSelector((state)=>state.cart);
     const [message, setMessage] = useState("");
 
   useEffect(() => {
     // Check to see if this is a redirect back from Checkout
     const query = new URLSearchParams(window.location.search);
-    console.log(number);
     if (query.get("success")) {
       setMessage("Order placed! You will receive an email confirmation.");
     }
@@ -78,23 +78,34 @@ const Cart=()=>{
       );
     }
   }, []); 
+  useEffect(() => {
+    const test=async()=>{
+      await setProduct(cart);
+      console.log(product);
+    };test()
+    
+  },[cart])
   
   useEffect(() => {
-    // Check to see if this is a redirect back from Checkout
-  //   dispatch(
-  //     removeProduct({number, quantity, size})
-  // );
+    //Check to see if this is a redirect back from Checkout
+    if(mark){
+      dispatch(
+        removeProduct({number, qua, money, size}) 
+    );
+    }
+    
+  console.log(cart);
   }, [number]);
 
       const Orderer=async()=>{
         console.log('hi ordered')
-        if(address!=='' && email!==''){
+        if(address!=="" && email!==""){
           try {
             const res = await userRequest.post("/orders", {
               userId: currentUser._id,
               products: cart.products.map((item) => ({
                 productId: item._id,
-                quantity: item._quantity,
+                quantity: item.quantity,
               })),
               amount: cart.total,
               address: address,
@@ -130,11 +141,11 @@ const Cart=()=>{
                     <Form.Label>Address</Form.Label>
                     <Form.Control type="test" placeholder="Address" onChange={(e)=>setAddress(e.target.value)} />
                 </Form.Group>
-                {(message) ? (
+                {/* {(message) ? (
     <Message message={message} />
   ) : (
     <ProductDisplay />
-  )}
+  )} */}
                 <Button variant="outline-success" type="submit" onClick={Orderer}>
                 Pay On Delvery ₹{cart.total}    
                 </Button>
@@ -154,7 +165,7 @@ const Cart=()=>{
                         <div className='CartInput'>
                             <p> </p>
                             <p>₹ {prod.price*prod.quantity}</p>
-                            <Button variant="outline-danger" type="button" value={index} onClick={(e)=>setNumber(index)}>
+                            <Button variant="outline-danger" type="button" value={{idx:index, quan:prod.quantity}} onClick={(e)=>{setNumber(index); setMark(true); setQua(prod.quantity); setMoney((prod.quantity)*(prod.price))}}>
                               Remove{index}
                             </Button>
                         </div>

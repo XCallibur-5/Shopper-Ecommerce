@@ -10,20 +10,21 @@ const cartSlice = createSlice({
     reducers:{
         addProduct:(state,action)=>{
             //this is cart quantity
+            
+            state.products?.push(action?.payload);
             state.quantity+=1;
-            state.products.push(action.payload);
             console.log(action.payload)
             //while here it is product selected for adding to cart quantity
             state.total += action.payload.price * action.payload.quantity;
         },
+
         removeProduct:(state,action)=>{
             console.log(action.payload);
-            // state.total=state.total-state.products[(-1)]
-            // state?.quantity=state?.quantity-state.products[action.payload.number].quantity;
-            console.log(state.products[action.payload.number]);
-            state.products.splice(action.payload.number, 1);
+            state.total-=action?.payload?.money
+            // state.quantity=state.quantity-state?.products[action.payload.number]?.quantity;
+            // console.log(state.products[action.payload.number]);
+            state.products?.splice(action.payload.number, 1);
             state.quantity--;
-            console.log(state)
             
             //state.total=0;
              
