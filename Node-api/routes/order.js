@@ -61,6 +61,12 @@ router.get("/findOne/:orderId/:userId", verifyTokenAndAuthorization, async (req,
   res.json(orders);
 });
 
+router.get("/mark/:orderId", verifyAdmin, async (req, res) => {
+  const orders = await Order.findByIdAndUpdate(req.params.orderId, {status:'delivered'},{ new: true });
+  res.json(orders);
+});
+
+
 
   //----------------Find All---------------
 

@@ -36,6 +36,10 @@ function AdminOrders(){
         }; pro()
     }, [order, id, currentUser])
 
+    const handleClick=async ()=>{
+        const res = await userRequest.get(`/orders/mark/${id}`);
+    }
+
     return(
         <div>
 
@@ -49,7 +53,10 @@ function AdminOrders(){
                         <div className='CartInput'>
                         <p><b>Price :-</b> ₹ {order?.amount}</p>
                         <h4>Order Items</h4>
+                        {(currentUser.isAdmin && order?.status!=='delivered')?<Button variant="outline-danger" onClick={handleClick}>delivered</Button>:<></>}
+                        {(order?.status==='delivered')?<Button variant="outline-success">delivered {format(order?.updatedAt, 'en_US')}</Button>:<Button variant="outline-danger">Not yet delivered</Button>}
                         <hr />
+
                         {products.map((prod, index)=>(
                             (prod.data)?
                             <div className='CartCard' key={index}>
@@ -60,7 +67,8 @@ function AdminOrders(){
                         </div>
 
                         <div className='CartInput'>
-                            <p> </p>
+                        
+
                         </div>
                     <hr /> 
                   </div>
