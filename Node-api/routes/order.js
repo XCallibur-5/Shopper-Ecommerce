@@ -6,47 +6,47 @@ const CryptoJS = require("crypto-js");
 const {verifyToken, verifyTokenAndAuthorization, verifyAdmin} = require("./verifyToken")
 // This is your test secret API key.
 require('dotenv').config();
-
-const stripe = require('stripe')(process.env.STRIPE_KEY);
-
-
-const YOUR_DOMAIN = 'http://localhost:3000/cart';
-
-router.post('/create-checkout-session', async (req, res) => {
-  const session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        price_data: {
-          currency: 'inr',
-          product_data: {
-            name: 'T-shirt',
-          },
-          unit_amount: 2000,
-        },
-        quantity: 1,
-      },
-    ],
-    mode: 'payment',
-    success_url: `${YOUR_DOMAIN}?success=true`,
-    cancel_url: `${YOUR_DOMAIN}?canceled=true`,
-  });
-  //console.log(session)
-  res.redirect(303, session.url);
-});
-
+const Razorpay = require('razorpay');
+const shortid = require('shortid')
+var razorpay = new Razorpay({ key_id: process.env.KEY_ID, key_secret: process.env.KEY_SECRET })
 
 //----------CREATE------------
 
-router.post('/', verifyToken, async (req,res)=>{
-    const newOrder = new Order(req.body);
+
+router.post('/razorPay', async (req,res)=>{
+  const payment_capture = 1;
+  const currency = "INR";
+  const options = {
+    amount: req.body.money*100,
+    currency: currency,
+    payment_capture : 1,
+    receipt: shortid.generate(),
+    
+  };
+
+  try {
+    const response = await razorpay.orders.create(options);
+    console.log(response);
+    res.json({
+      id: response.id,
+      currency: response.currency,
+      amount: response.amount,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+})
+
+router.post('/', verifyTokenAndAuthorization, async (req,res)=>{
+  console.log(req.body);
+const newOrder = new Order(req.body);
     try {
       const savedOrder = await newOrder.save();
       res.json(savedOrder);
     } catch (err) {
       res.json(err);
     }
-})
-
+  })
 
 //---------READ-User Order------------
 
