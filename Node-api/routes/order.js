@@ -37,7 +37,7 @@ router.post('/razorPay', async (req,res)=>{
   }
 })
 
-router.post('/', verifyTokenAndAuthorization, async (req,res)=>{
+router.post('/makeOrder/:userId', verifyTokenAndAuthorization, async (req,res)=>{
   console.log(req.body);
 const newOrder = new Order(req.body);
     try {

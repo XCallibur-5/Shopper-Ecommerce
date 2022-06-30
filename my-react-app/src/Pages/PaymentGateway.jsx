@@ -13,7 +13,7 @@ export default async function displayRazorpay(Orderer, money) {
       name: "Learn Code Online",
       description: "Wallet Transaction",
       order_id: data.data.id,
-        handler:  await Orderer
+        handler: await Orderer
         }
   
     const paymentObject = await new window.Razorpay(options);

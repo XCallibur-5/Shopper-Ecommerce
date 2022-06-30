@@ -11,6 +11,7 @@ import { publicRequest, userRequest } from "../requestMethods";
 import { useNavigate } from "react-router";
 import { addProduct,resetProduct,removeProduct } from "../redux/cartRedux";
 import displayRazorpay from "./PaymentGateway";
+import Success from "./Success"
 
 
 //console.log(KEY);
@@ -26,6 +27,7 @@ const Cart=()=>{
     const[number, setNumber]=useState(0);
     const[qua, setQua]=useState(0);
     const[money, setMoney]=useState(0);
+    const[ordered, setOrdered]=useState(false);
     const currentUser = useSelector((state) => state.user.currentUser);
     const quantity = useSelector((state)=>state.cart.quantity);
 
@@ -40,6 +42,7 @@ const Cart=()=>{
       await setProduct(cart);
       console.log(product);
       setMessage(cart.total)
+      console.log(currentUser);
     };test()
   },[cart])
   
@@ -57,7 +60,7 @@ const Cart=()=>{
         console.log('hi ordered')
         if(address!=="" && email!==""){
           try {
-            const res = await userRequest.post("/orders", {
+            const res = await userRequest.post(`/orders/makeOrder/${currentUser._id}`, {
               userId: currentUser._id,
               products: cart.products.map((item) => ({
                 productId: item._id,
@@ -66,11 +69,14 @@ const Cart=()=>{
               amount: cart.total,
               address: address,
             });
+            if(res){
+              dispatch(
+                resetProduct({...product, quantity, size})
+            );
+              //window.location.href='/';
+              setOrdered(true);
+            }
           } catch {}
-          dispatch(
-            resetProduct({...product, quantity, size})
-        );
-          window.location.href='/';
         }
       }
       const payment= async()=>{
@@ -79,11 +85,10 @@ const Cart=()=>{
         console.log(result);
       }
 
-    let x=0;
-
     return(
         <div>
             <Navbars />
+            {(ordered)?<Success />:<></>}
             <div className="CartDetail">
                 <h2>Your Cart</h2>
                 <Button variant="outline-success" type="submit">
