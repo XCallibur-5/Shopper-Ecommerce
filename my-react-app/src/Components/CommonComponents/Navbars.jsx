@@ -1,5 +1,5 @@
 
-import '../App.css';
+import '../../App.css';
 import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
@@ -9,8 +9,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import {useSelector,useDispatch} from 'react-redux';
 import {Link} from "react-router-dom";
 import { useState } from "react";
-import { logout } from "../redux/apiCalls";
-import { resetProduct } from "../redux/cartRedux";
+import { logout } from "../../redux/apiCalls";
+import { resetProduct } from "../../redux/cartRedux";
 
 function Navbars (){
     const [email,setEmail] = useState(null);

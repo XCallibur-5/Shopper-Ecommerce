@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Footer from '../Components/Footer';
-import Navbars from '../Components/Navbars';
+import Footer from '../Components/CommonComponents/Footer';
+import Navbars from '../Components/CommonComponents/Navbars';
 import { publicRequest } from "../requestMethods";
 
 

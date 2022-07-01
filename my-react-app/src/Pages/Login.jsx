@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react";
 import Form from 'react-bootstrap/Form';
-import Navbars from '../Components/Navbars';
+import Navbars from '../Components/CommonComponents/Navbars';
 import Button from 'react-bootstrap/Button';
-import Footer from '../Components/Footer';
+import Footer from '../Components/CommonComponents/Footer';
 import { login } from "../redux/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";

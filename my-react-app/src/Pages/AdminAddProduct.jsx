@@ -1,6 +1,6 @@
 import '../App.css';
 import React, { useState } from "react";
-import Navbars from '../Components/Navbars';
+import Navbars from '../Components/CommonComponents/Navbars';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { userRequest } from "../requestMethods";

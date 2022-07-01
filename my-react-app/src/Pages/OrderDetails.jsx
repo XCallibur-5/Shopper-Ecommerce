@@ -1,7 +1,7 @@
 import '../App.css';
 import React, { useState,useEffect } from "react";
 import Button from 'react-bootstrap/Button';
-import Navbars from '../Components/Navbars';
+import Navbars from '../Components/CommonComponents/Navbars';
 
 import { userRequest } from "../requestMethods";
 import {useSelector,useDispatch} from 'react-redux';

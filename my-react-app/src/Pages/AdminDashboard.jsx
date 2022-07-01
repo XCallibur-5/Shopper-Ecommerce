@@ -1,6 +1,6 @@
 import '../App.css';
 import React, { useState,useEffect } from "react";
-import Navbars from '../Components/Navbars';
+import Navbars from '../Components/CommonComponents/Navbars';
 import Button from 'react-bootstrap/Button';
 import { userRequest } from "../requestMethods";
 import { useNavigate } from "react-router-dom";

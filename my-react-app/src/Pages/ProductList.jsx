@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Navbars from '../Components/Navbars';
+import Navbars from '../Components/CommonComponents/Navbars';
 
 // import Cards from '../Components/Cards';
 import Products from '../Components/Products';
-import Footer from '../Components/Footer';
+import Footer from '../Components/CommonComponents/Footer';
 import '../App.css';
 import {useLocation} from "react-router-dom";
 import Form from 'react-bootstrap/Form';

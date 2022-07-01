@@ -1,8 +1,8 @@
 import React from "react";
-import Navbars from '../Components/Navbars';
+import Navbars from '../Components/CommonComponents/Navbars';
 import Carousels from '../Components/Carousels';
 import CardGroups from '../Components/CardGroups';
-import Footer from '../Components/Footer';
+import Footer from '../Components/CommonComponents/Footer';
 import Products from '../Components/Products';
 import '../App.css';
 

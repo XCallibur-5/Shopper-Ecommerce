@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from "react";
-import Navbars from '../Components/Navbars';
-import Footer from '../Components/Footer';
+import Navbars from '../Components/CommonComponents/Navbars';
+import Footer from '../Components/CommonComponents/Footer';
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form';
 import '../App.css';
