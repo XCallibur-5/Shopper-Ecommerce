@@ -1,6 +1,5 @@
 import '../App.css';
 import Cards from "./Cards";
-import { popularProducts } from '../data';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 

@@ -1,9 +1,8 @@
 import React from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import '../App.css';
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function Example(props) {
     const [show, setShow] = useState(true);

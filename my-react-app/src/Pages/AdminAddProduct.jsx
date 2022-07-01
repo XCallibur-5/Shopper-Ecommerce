@@ -1,14 +1,9 @@
 import '../App.css';
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import Navbars from '../Components/Navbars';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Container from 'react-bootstrap/esm/Container';
 import { userRequest } from "../requestMethods";
-import {useSelector,useDispatch} from 'react-redux';
-import { format } from 'timeago.js';
-
-
 
 function AdminAddProduct(){
 

@@ -1,4 +1,4 @@
-import { publicRequest, userRequest } from "../requestMethods";
+import { userRequest } from "../requestMethods";
 export default async function displayRazorpay(Orderer, money) {
     const data = await userRequest.post("/orders/razorPay", {money:money})
 

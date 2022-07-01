@@ -2,7 +2,6 @@ import React from "react";
 import Navbars from '../Components/Navbars';
 import Carousels from '../Components/Carousels';
 import CardGroups from '../Components/CardGroups';
-import Cards from '../Components/Cards';
 import Footer from '../Components/Footer';
 import Products from '../Components/Products';
 import '../App.css';

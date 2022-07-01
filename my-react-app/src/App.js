@@ -11,8 +11,7 @@ import AdminDashboard from './Pages/AdminDashboard';
 import AdminAddProduct from './Pages/AdminAddProduct';
 import OrderDashboard from './Pages/Order';
 import OrderIndividual from './Pages/OrderIndividual';
-import Success from "./Pages/Success";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function App() {
   const user = useSelector((state)=>state.user.currentUser);
@@ -29,7 +28,6 @@ function App() {
         <Route path="/product/:id" element={<Product />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/orders/:id" element={<OrderIndividual />} />
-        <Route path="/success" element={<Success />} />
         <Route path={user!=null?'/order/find/'+user._id:'/order/find/'} element={<OrderDashboard />} />
         <Route path="/adminAddProduct" element={<AdminAddProduct />} />
       </Routes>

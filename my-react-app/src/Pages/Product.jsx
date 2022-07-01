@@ -10,7 +10,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { userRequest } from "../requestMethods";
 import {useSelector,useDispatch} from 'react-redux';
-import { format } from 'timeago.js';
 import {useLocation} from 'react-router-dom';
 import { publicRequest } from '../requestMethods';
 import { addProduct } from "../redux/cartRedux";

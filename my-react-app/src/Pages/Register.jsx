@@ -52,7 +52,7 @@ function Register(){
                 </Form.Group>
                 
                 <Button variant="outline-success" type="submit" onClick={regis}>
-                Register         
+                    Register         
                 </Button>
 
             </Form>

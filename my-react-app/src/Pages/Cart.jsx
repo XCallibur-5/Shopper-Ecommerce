@@ -7,19 +7,17 @@ import Form from 'react-bootstrap/Form';
 import '../App.css';
 
 import { useEffect, useState } from "react";
-import { publicRequest, userRequest } from "../requestMethods";
-import { useNavigate } from "react-router";
-import { addProduct,resetProduct,removeProduct } from "../redux/cartRedux";
+import { userRequest } from "../requestMethods";
+
+import { resetProduct,removeProduct } from "../redux/cartRedux";
 import displayRazorpay from "./PaymentGateway";
-import Success from "./Success"
+import Success from "../Components/CommonComponents/Success"
 
 
 //console.log(KEY);
 
 const Cart=()=>{
     const dispatch = useDispatch();
-
-    const navigate = useNavigate();
     const [mark, setMark] = useState(false);
     const [address,setAddress] = useState("");
     const [email,setEmail] = useState("");
