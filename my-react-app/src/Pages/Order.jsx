@@ -14,13 +14,11 @@ function OrderDashboard(){
     useEffect(() => {
         const makeRequest = async ()=>{
             const res = await userRequest.get(`/orders/find/${currentUser._id}`);
-            console.log(res);
             await setOrders(res.data);
-            console.log(currentUser)
         }
         makeRequest();
     },[currentUser]);
-    //console.log(orders[0].products);
+
     return(
         <div>
         < Navbars />

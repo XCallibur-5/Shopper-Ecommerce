@@ -14,7 +14,7 @@ import displayRazorpay from "./PaymentGateway";
 import Success from "../Components/CommonComponents/Success"
 
 
-//console.log(KEY);
+
 
 const Cart=()=>{
     const dispatch = useDispatch();
@@ -30,7 +30,6 @@ const Cart=()=>{
     const quantity = useSelector((state)=>state.cart.quantity);
 
     const [product, setProduct]= useState({});
-    //console.log(product);
     const cart= useSelector((state)=>state.cart);
     const [message, setMessage] = useState("");
 
@@ -38,9 +37,7 @@ const Cart=()=>{
   useEffect(() => {
     const test=async()=>{
       await setProduct(cart);
-      console.log(product);
       setMessage(cart.total)
-      console.log(currentUser);
     };test()
   },[cart])
   
@@ -51,11 +48,9 @@ const Cart=()=>{
         removeProduct({number, qua, money, size}) 
     );
     }
-  console.log(cart);
   }, [number]);
 
       const Orderer=async()=>{
-        console.log('hi ordered')
         if(address!=="" && email!==""){
           try {
             const res = await userRequest.post(`/orders/makeOrder/${currentUser._id}`, {
@@ -78,7 +73,6 @@ const Cart=()=>{
         }
       }
       const payment= async()=>{
-        console.log(message);
         const result= await displayRazorpay(Orderer, message);
         console.log(result);
       }

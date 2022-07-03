@@ -15,7 +15,6 @@ function Register(){
         email: email,
         password: password,
     }
-    console.log(Ruser);
     const regis =async (e)=>{
         e.preventDefault();
         const k = await publicRequest.post("/auth/registration", Ruser);

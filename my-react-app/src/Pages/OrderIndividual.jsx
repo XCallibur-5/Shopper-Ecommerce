@@ -17,7 +17,6 @@ function AdminOrders(){
         const makeRequest = async ()=>{
             if(id){
                 const res = await userRequest.get(`/orders/findOne/${id}/${currentUser._id}`);
-                console.log(res)
                 setOrder(res.data);
             }  
         };makeRequest();
@@ -26,12 +25,9 @@ function AdminOrders(){
     useEffect(()=>{
         const pro = async ()=>{
             order?.products?.map(async (x)=>{
-                console.log(x.quantity)
                 let resTemp = await userRequest.get(`/products/${x.productId}`)
                 resTemp.qua= await x.quantity
-                console.log(resTemp)
                 await setProducts(oldArray => [...oldArray, resTemp])
-                console.log(products)
             })
         }; pro()
     }, [order, id, currentUser])

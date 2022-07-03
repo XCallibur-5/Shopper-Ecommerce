@@ -37,7 +37,6 @@ function Product(){
         const setRat=async ()=>{
             if(product && rating!=="0"){
                 const ratRes= await userRequest.post(`/products/rate/${id}`, {rating: rating});
-                console.log(ratRes);
             }
         };
         setRat();

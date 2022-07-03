@@ -19,7 +19,6 @@ function OrderDashboard(){
     },[currentUser]);
 
 
-    console.log(orders[0].products);
     return(
         <div>
         < Navbars />
